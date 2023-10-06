@@ -1,0 +1,29 @@
+{
+	"name": "NewsNet AI Writer",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute AI Writer AMLS Pipeline",
+				"type": "AzureMLExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"mlExecutionType": "pipeline",
+					"mlPipelineEndpointId": "acbfe9ef-bd06-4d42-883a-7318ce3072c5"
+				},
+				"linkedServiceName": {
+					"referenceName": "NewsNet AMLS Linked Service",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	}
+}
