@@ -1,0 +1,13 @@
+{
+	"name": "NewsNet AMLS Linked Service",
+	"properties": {
+		"annotations": [],
+		"type": "AzureMLService",
+		"typeProperties": {
+			"subscriptionId": "1c447d71-7fb8-4d6d-b425-64daf3c4e181",
+			"resourceGroupName": "newsNet",
+			"mlWorkspaceName": "amls-newsnet",
+			"authentication": "MSI"
+		}
+	}
+}
