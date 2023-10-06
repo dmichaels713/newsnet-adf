@@ -1,0 +1,112 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "newsnet-datafactory"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "1c447d71-7fb8-4d6d-b425-64daf3c4e181"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "newsNet"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_mlWorkspaceName": {
+			"type": "string",
+			"defaultValue": "amls-newsnet"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/NewsNet AI Writer')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute AI Writer AMLS Pipeline",
+						"type": "AzureMLExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.00:30:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"mlExecutionType": "pipeline",
+							"mlPipelineEndpointId": "acbfe9ef-bd06-4d42-883a-7318ce3072c5"
+						},
+						"linkedServiceName": {
+							"referenceName": "NewsNet AMLS Linked Service",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/NewsNet AMLS Linked Service')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NewsNet AMLS Linked Service')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureMLService",
+				"typeProperties": {
+					"subscriptionId": "[parameters('NewsNet AMLS Linked Service_properties_typeProperties_subscriptionId')]",
+					"resourceGroupName": "[parameters('NewsNet AMLS Linked Service_properties_typeProperties_resourceGroupName')]",
+					"mlWorkspaceName": "[parameters('NewsNet AMLS Linked Service_properties_typeProperties_mlWorkspaceName')]",
+					"authentication": "MSI"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Hourly NewsNet Trigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipeline": {
+					"pipelineReference": {
+						"referenceName": "NewsNet AI Writer",
+						"type": "PipelineReference"
+					},
+					"parameters": {}
+				},
+				"type": "TumblingWindowTrigger",
+				"typeProperties": {
+					"frequency": "Hour",
+					"interval": 1,
+					"startTime": "2023-10-06T19:00:00Z",
+					"delay": "00:00:00",
+					"maxConcurrency": 50,
+					"retryPolicy": {
+						"intervalInSeconds": 30
+					},
+					"dependsOn": []
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/NewsNet AI Writer')]"
+			]
+		}
+	]
+}

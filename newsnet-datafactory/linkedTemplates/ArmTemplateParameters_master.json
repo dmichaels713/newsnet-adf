@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "newsnet-datafactory"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_subscriptionId": {
+			"value": "1c447d71-7fb8-4d6d-b425-64daf3c4e181"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_resourceGroupName": {
+			"value": "newsNet"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_mlWorkspaceName": {
+			"value": "amls-newsnet"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

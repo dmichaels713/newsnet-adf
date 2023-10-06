@@ -1,0 +1,63 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "newsnet-datafactory"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "1c447d71-7fb8-4d6d-b425-64daf3c4e181"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "newsNet"
+		},
+		"NewsNet AMLS Linked Service_properties_typeProperties_mlWorkspaceName": {
+			"type": "string",
+			"defaultValue": "amls-newsnet"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "newsnet-datafactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"NewsNet AMLS Linked Service_properties_typeProperties_subscriptionId": {
+						"value": "[parameters('NewsNet AMLS Linked Service_properties_typeProperties_subscriptionId')]"
+					},
+					"NewsNet AMLS Linked Service_properties_typeProperties_resourceGroupName": {
+						"value": "[parameters('NewsNet AMLS Linked Service_properties_typeProperties_resourceGroupName')]"
+					},
+					"NewsNet AMLS Linked Service_properties_typeProperties_mlWorkspaceName": {
+						"value": "[parameters('NewsNet AMLS Linked Service_properties_typeProperties_mlWorkspaceName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
