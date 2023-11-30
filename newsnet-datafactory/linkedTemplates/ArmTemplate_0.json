@@ -41,6 +41,43 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/NewsNet AI Writer 2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute AI Writer AMLS Pipeline 2",
+						"type": "AzureMLExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.02:30:00",
+							"retry": 1,
+							"retryIntervalInSeconds": 60,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"mlExecutionType": "pipeline",
+							"mlPipelineEndpointId": "ec472e46-1440-45e7-a95d-5b0d751ae561"
+						},
+						"linkedServiceName": {
+							"referenceName": "NewsNet AMLS Linked Service",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/NewsNet AMLS Linked Service')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/NewsNet AI Writer')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
