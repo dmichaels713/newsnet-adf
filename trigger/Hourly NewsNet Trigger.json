@@ -2,7 +2,7 @@
 	"name": "Hourly NewsNet Trigger",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipeline": {
 			"pipelineReference": {
 				"referenceName": "NewsNet AI Writer",
